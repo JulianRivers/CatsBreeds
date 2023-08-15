@@ -1,4 +1,4 @@
-class Cat {
+class CatModel {
   Weight weight;
   String id;
   String name;
@@ -37,7 +37,7 @@ class Cat {
   int hypoallergenic;
   String referenceImageId;
 
-  Cat({
+  CatModel({
     required this.weight,
     required this.id,
     required this.name,
@@ -77,7 +77,7 @@ class Cat {
     required this.referenceImageId,
   });
 
-  factory Cat.fromJson(Map<String, dynamic> json) => Cat(
+  factory CatModel.fromJson(Map<String, dynamic> json) => CatModel(
         weight: Weight.fromJson(json["weight"]),
         id: json["id"],
         name: json["name"],
