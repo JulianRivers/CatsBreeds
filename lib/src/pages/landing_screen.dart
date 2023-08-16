@@ -1,4 +1,5 @@
 import 'package:cats_breeds/src/providers/cat_api_provider.dart';
+import 'package:cats_breeds/src/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,12 +19,11 @@ class LandingScreen extends StatelessWidget {
       body: catApiProvider.cats.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
-              itemCount: catApiProvider.cats.length,
+              itemCount: 15,
               itemBuilder: (context, index) {
                 final cat = catApiProvider.cats[index];
-                return ListTile(
-                  title: Text(cat.name),
-                  subtitle: Text(cat.description),
+                return CardsCats(
+                  cat: cat,
                 );
               },
             ),

@@ -24,4 +24,22 @@ class CatsService {
       throw Exception("Failed to load data");
     }
   }
+
+  Future<List<dynamic>> fetchImageUrl(String refImage) async {
+    final url = Uri.parse("$baseUrl/images");
+    final response = await http.get(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonData = json.decode(response.body);
+      return jsonData;
+    } else {
+      throw Exception("Failed to load data");
+    }
+  }
 }
