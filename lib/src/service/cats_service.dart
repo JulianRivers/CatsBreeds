@@ -18,7 +18,8 @@ class CatsService {
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
-      return jsonData.map((data) => CatModel.fromJson(data)).toList();
+      final respuesta = jsonData.map((obj) => CatModel.fromJson(obj)).toList();
+      return respuesta;
     } else {
       throw Exception("Failed to load data");
     }
