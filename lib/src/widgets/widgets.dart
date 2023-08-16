@@ -23,7 +23,7 @@ class CardsCats extends StatelessWidget {
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
-              const Text('Mas...')
+              TextButton(onPressed: () {}, child: const Text('Más...'))
             ],
           ),
           const SizedBox(

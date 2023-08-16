@@ -36,6 +36,7 @@ class CatModel {
   String wikipediaUrl;
   int hypoallergenic;
   String referenceImageId;
+  String? url;
 
   CatModel({
     required this.weight,
@@ -75,6 +76,7 @@ class CatModel {
     required this.wikipediaUrl,
     required this.hypoallergenic,
     required this.referenceImageId,
+    this.url,
   });
 
   factory CatModel.fromJson(Map<String, dynamic> json) => CatModel(

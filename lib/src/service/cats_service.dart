@@ -26,7 +26,7 @@ class CatsService {
   }
 
   Future<List<dynamic>> fetchImageUrl(String refImage) async {
-    final url = Uri.parse("$baseUrl/images");
+    final url = Uri.parse("$baseUrl/images/$refImage");
     final response = await http.get(
       url,
       headers: {
