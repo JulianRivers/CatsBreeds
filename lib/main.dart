@@ -1,4 +1,6 @@
-import 'package:cats_breeds/config/router/app_router.dart';
+import 'package:cats_breeds/src/config/router/app_router.dart';
+import 'package:cats_breeds/src/providers/cat_api_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
@@ -8,9 +10,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: appRouter,
-      debugShowCheckedModeBanner: false,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => CatApiProvider(),
+        ),
+      ],
+      child: MaterialApp.router(
+        routerConfig: appRouter,
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }

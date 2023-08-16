@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:cats_breeds/infraestructure/models/cat_model.dart';
+import 'package:cats_breeds/src/models/cat_model.dart';
 import 'package:http/http.dart' as http;
 
 class CatsService {
