@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 class CatApiProvider extends ChangeNotifier {
   final CatsService _catsService = CatsService();
   bool _isInitialized = false;
-  late CatModel _catDetail;
   List<CatModel> _cats = [];
+  List<CatModel> _filterCat = [];
 
   List<CatModel> get cats => _cats;
   bool get isInitialized => _isInitialized;
-  CatModel get cat => _catDetail;
 
   Future<void> fetchCats() async {
     try {
@@ -20,5 +19,15 @@ class CatApiProvider extends ChangeNotifier {
     } catch (error) {
       throw Exception("Error: $error");
     }
+  }
+
+  Future<void> searchCats(String catBreed) async {
+    if (catBreed.isEmpty) return;
+
+    _filterCat = _cats.where((cat) {
+      return cat.name.toLowerCase().contains(catBreed.toLowerCase());
+    }).toList();
+
+    notifyListeners();
   }
 }
