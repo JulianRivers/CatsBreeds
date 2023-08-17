@@ -1,3 +1,4 @@
+import 'package:cats_breeds/src/pages/detail_screen.dart';
 import 'package:cats_breeds/src/providers/cat_api_provider.dart';
 import 'package:cats_breeds/src/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,14 @@ class LandingScreen extends StatelessWidget {
                 final cat = catApiProvider.cats[index];
                 return CardsCats(
                   cat: cat,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailScreen(cat: cat),
+                      ),
+                    );
+                  },
                 );
               },
             ),
