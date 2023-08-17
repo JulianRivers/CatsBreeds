@@ -72,6 +72,25 @@ class CatImage extends StatelessWidget {
                 width: media.width * 0.5,
               ));
         }
+        if (snapshot.connectionState != ConnectionState.done) {
+          return SpinPerfect(
+              duration: const Duration(milliseconds: 1200),
+              child: Image(
+                image: const AssetImage('assets/images/cat_loading.png'),
+                fit: BoxFit.cover,
+                height: media.height * 0.3,
+                width: media.width * 0.5,
+              ));
+        }
+
+        if (snapshot.data == null) {
+          return Image(
+            image: const AssetImage('assets/images/cat404.png'),
+            fit: BoxFit.cover,
+            height: media.height * 0.3,
+            width: media.width * 0.5,
+          );
+        }
 
         return Image.network(
           snapshot.data!,

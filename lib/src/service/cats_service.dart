@@ -42,6 +42,6 @@ class CatsService {
     } catch (error) {
       throw ('Error: $error');
     }
-    return 'assets/images/cat_loading.png';
+    return null;
   }
 }
