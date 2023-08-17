@@ -21,25 +21,41 @@ class LandingScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('CatBreeds'),
       ),
-      body: catApiProvider.cats.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: catApiProvider.cats.length,
-              itemBuilder: (context, index) {
-                final cat = catApiProvider.cats[index];
-                return CardsCats(
-                  cat: cat,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DetailScreen(cat: cat),
-                      ),
-                    );
-                  },
-                );
-              },
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (value) {},
+              decoration: const InputDecoration(
+                labelText: 'Search cats',
+                prefixIcon: Icon(Icons.search),
+              ),
             ),
+          ),
+          Expanded(
+            child: catApiProvider.cats.isEmpty
+                ? const Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: catApiProvider.cats.length,
+                    itemBuilder: (context, index) {
+                      final cat = catApiProvider.cats[index];
+                      return CardsCats(
+                        cat: cat,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailScreen(cat: cat),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+          ),
+        ],
+      ),
     );
   }
 }
