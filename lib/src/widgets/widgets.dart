@@ -1,4 +1,6 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:cats_breeds/src/models/cat_model.dart';
+import 'package:cats_breeds/src/service/cats_service.dart';
 import 'package:flutter/material.dart';
 
 class CardsCats extends StatelessWidget {
@@ -29,11 +31,26 @@ class CardsCats extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          Image(
-            image: NetworkImage(
-                'https://cdn2.thecatapi.com/images/${cat.referenceImageId}.jpg'),
-            height: media.height * 0.4,
-            fit: BoxFit.cover,
+          FutureBuilder<String?>(
+            future: CatsService().validateImageURL(cat.referenceImageId),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState != ConnectionState.done) {
+                return SpinPerfect(
+                  duration: const Duration(milliseconds: 1200),
+                    child: Image(
+                  image: const AssetImage('assets/images/cat_loading.png'),
+                  fit: BoxFit.cover,
+                  height: media.height * 0.3,
+                  width: media.width*0.5,
+                ));
+              }
+
+              return Image.network(
+                snapshot.data!,
+                height: media.height * 0.3,
+                fit: BoxFit.cover,
+              );
+            },
           ),
           const SizedBox(
             height: 20,
