@@ -5,12 +5,16 @@ import 'package:provider/provider.dart';
 
 class LandingScreen extends StatelessWidget {
   static const String name = 'landing_screen';
+
   const LandingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final catApiProvider = context.watch<CatApiProvider>();
-    catApiProvider.fetchCats();
+
+    if (!catApiProvider.isInitialized) {
+      catApiProvider.fetchCats();
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -19,7 +23,7 @@ class LandingScreen extends StatelessWidget {
       body: catApiProvider.cats.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
-              itemCount: 15,
+              itemCount: catApiProvider.cats.length,
               itemBuilder: (context, index) {
                 final cat = catApiProvider.cats[index];
                 return CardsCats(

@@ -25,21 +25,23 @@ class CatsService {
     }
   }
 
-  Future<List<dynamic>> fetchImageUrl(String refImage) async {
-    final url = Uri.parse("$baseUrl/images/$refImage");
-    final response = await http.get(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": apiKey,
-      },
-    );
+  Future<String?> validateImageURL(String? imageId) async {
+    final urlJpg = Uri.parse('https://cdn2.thecatapi.com/images/$imageId.jpg');
+    final urlPng = Uri.parse('https://cdn2.thecatapi.com/images/$imageId.png');
 
-    if (response.statusCode == 200) {
-      final List<dynamic> jsonData = json.decode(response.body);
-      return jsonData;
-    } else {
-      throw Exception("Failed to load data");
+    try {
+      final responseJpg = await http.head(urlJpg);
+      if (responseJpg.statusCode == 200) {
+        return urlJpg.toString();
+      }
+
+      final responsePng = await http.head(urlPng);
+      if (responsePng.statusCode == 200) {
+        return urlPng.toString();
+      }
+    } catch (error) {
+      throw ('Error: $error');
     }
+    return 'assets/images/cat_loading.png';
   }
 }

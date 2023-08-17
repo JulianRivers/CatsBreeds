@@ -4,22 +4,17 @@ import 'package:flutter/material.dart';
 
 class CatApiProvider extends ChangeNotifier {
   final CatsService _catsService = CatsService();
+  bool _isInitialized = false;
   List<CatModel> _cats = [];
 
   List<CatModel> get cats => _cats;
+  bool get isInitialized => _isInitialized;
 
   Future<void> fetchCats() async {
     try {
       _cats = await _catsService.fetchCatsData();
+      _isInitialized = true;
       notifyListeners();
-    } catch (error) {
-      throw Exception("Error: $error");
-    }
-  }
-
-  Future<void> fetchImages(String id) async {
-    try {
-      dynamic imagen = _catsService.fetchImageUrl(id);
     } catch (error) {
       throw Exception("Error: $error");
     }
