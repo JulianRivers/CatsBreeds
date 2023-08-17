@@ -13,8 +13,7 @@ class CatApiProvider extends ChangeNotifier {
       _cats = await _catsService.fetchCatsData();
       notifyListeners();
     } catch (error) {
-      print("Error in fetchCats(): $error"); // Imprime el error en la consola
-      throw Exception("Error: $error"); // Lanza una nueva excepción
+      throw Exception("Error: $error");
     }
   }
 }
