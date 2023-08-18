@@ -1,9 +1,9 @@
-import 'package:cats_breeds/src/models/cat_model.dart';
-import 'package:cats_breeds/src/pages/detail_screen.dart';
-import 'package:cats_breeds/src/providers/cat_api_provider.dart';
-import 'package:cats_breeds/src/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cats_breeds/src/providers/cat_api_provider.dart';
+import 'package:cats_breeds/src/widgets/widgets.dart';
+import 'package:cats_breeds/src/pages/detail_screen.dart'; // Asegúrate de importar el archivo correcto para DetailScreen
+import 'package:cats_breeds/src/models/cat_model.dart';
 
 class LandingScreen extends StatelessWidget {
   static const String name = 'landing_screen';
@@ -52,32 +52,40 @@ class LandingScreen extends StatelessWidget {
                         itemCount: filteredCats.length,
                         itemBuilder: (context, index) {
                           final cat = filteredCats[index];
-                          return CardsCats(
-                            cat: cat,
-                            onPressed: () {
+                          return GestureDetector(
+                            onTap: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => DetailScreen(cat: cat),
+                                PageRouteBuilder(
+                                  transitionDuration:
+                                      const Duration(milliseconds: 500),
+                                  pageBuilder:
+                                      (context, animation, secondaryAnimation) {
+                                    return FadeTransition(
+                                      opacity: animation,
+                                      child: DetailScreen(cat: cat),
+                                    );
+                                  },
                                 ),
                               );
                             },
+                            child: Hero(
+                              tag: 'cat_image_${cat.id}',
+                              child: CardsCats(
+                                cat: cat,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          DetailScreen(cat: cat),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           );
                         },
-                        child: Hero(
-                          tag: 'cat_image_${cat.id}',
-                          child: CardsCats(
-                            cat: cat,
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DetailScreen(cat: cat),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
                       );
                     },
                   ),
