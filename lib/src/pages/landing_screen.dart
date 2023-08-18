@@ -40,16 +40,38 @@ class LandingScreen extends StatelessWidget {
                     itemCount: catApiProvider.cats.length,
                     itemBuilder: (context, index) {
                       final cat = catApiProvider.cats[index];
-                      return CardsCats(
-                        cat: cat,
-                        onPressed: () {
+                      return GestureDetector(
+                        onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => DetailScreen(cat: cat),
+                            PageRouteBuilder(
+                              transitionDuration:
+                                  const Duration(milliseconds: 500),
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                final cat = catApiProvider.cats[index];
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: DetailScreen(cat: cat),
+                                );
+                              },
                             ),
                           );
                         },
+                        child: Hero(
+                          tag: 'cat_image_${cat.id}',
+                          child: CardsCats(
+                            cat: cat,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailScreen(cat: cat),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                       );
                     },
                   ),
