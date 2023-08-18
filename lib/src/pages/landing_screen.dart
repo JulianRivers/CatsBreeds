@@ -1,3 +1,4 @@
+import 'package:cats_breeds/src/models/cat_model.dart';
 import 'package:cats_breeds/src/pages/detail_screen.dart';
 import 'package:cats_breeds/src/providers/cat_api_provider.dart';
 import 'package:cats_breeds/src/widgets/widgets.dart';
@@ -23,39 +24,44 @@ class LandingScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          Container(
+            constraints: const BoxConstraints(minHeight: 50.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
             child: TextField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                final List<CatModel> filteredCats =
+                    catApiProvider.getFilteredCats(value);
+                catApiProvider.updateFilteredCats(filteredCats);
+              },
               decoration: const InputDecoration(
-                labelText: 'Search cats',
+                hintText: 'Search cats...',
                 prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(0)),
+                ),
+                contentPadding: EdgeInsets.symmetric(vertical: 10.0),
               ),
             ),
           ),
-          Expanded(
-            child: catApiProvider.cats.isEmpty
-                ? const Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                    itemCount: catApiProvider.cats.length,
-                    itemBuilder: (context, index) {
-                      final cat = catApiProvider.cats[index];
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              transitionDuration:
-                                  const Duration(milliseconds: 500),
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) {
-                                final cat = catApiProvider.cats[index];
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: DetailScreen(cat: cat),
-                                );
-                              },
-                            ),
+          catApiProvider.isInitialized
+              ? Expanded(
+                  child: Consumer<CatApiProvider>(
+                    builder: (context, provider, child) {
+                      final List<CatModel> filteredCats = provider.catsData;
+                      return ListView.builder(
+                        itemCount: filteredCats.length,
+                        itemBuilder: (context, index) {
+                          final cat = filteredCats[index];
+                          return CardsCats(
+                            cat: cat,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailScreen(cat: cat),
+                                ),
+                              );
+                            },
                           );
                         },
                         child: Hero(
@@ -75,7 +81,10 @@ class LandingScreen extends StatelessWidget {
                       );
                     },
                   ),
-          ),
+                )
+              : const Center(
+                  child: CircularProgressIndicator(),
+                ),
         ],
       ),
     );
