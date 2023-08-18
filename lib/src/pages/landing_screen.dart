@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cats_breeds/src/providers/cat_api_provider.dart';
 import 'package:cats_breeds/src/widgets/widgets.dart';
-import 'package:cats_breeds/src/pages/detail_screen.dart'; // Asegúrate de importar el archivo correcto para DetailScreen
+import 'package:cats_breeds/src/pages/detail_screen.dart';
 import 'package:cats_breeds/src/models/cat_model.dart';
 
 class LandingScreen extends StatelessWidget {
