@@ -64,6 +64,20 @@ class LandingScreen extends StatelessWidget {
                             },
                           );
                         },
+                        child: Hero(
+                          tag: 'cat_image_${cat.id}',
+                          child: CardsCats(
+                            cat: cat,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailScreen(cat: cat),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                       );
                     },
                   ),
