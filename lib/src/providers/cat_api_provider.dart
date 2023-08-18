@@ -8,7 +8,7 @@ class CatApiProvider extends ChangeNotifier {
   List<CatModel> _cats = [];
   List<CatModel> _filterCat = [];
 
-  List<CatModel> get cats => _cats;
+  List<CatModel> get catsData => _filterCat.isNotEmpty ? _filterCat : _cats;
   bool get isInitialized => _isInitialized;
 
   Future<void> fetchCats() async {
@@ -28,6 +28,17 @@ class CatApiProvider extends ChangeNotifier {
       return cat.name.toLowerCase().contains(catBreed.toLowerCase());
     }).toList();
 
+    notifyListeners();
+  }
+
+  List<CatModel> getFilteredCats(String name) {
+    return _cats
+        .where((cat) => cat.name.toLowerCase().contains(name.toLowerCase()))
+        .toList();
+  }
+
+  void updateFilteredCats(List<CatModel> newFilteredCats) {
+    _filterCat = newFilteredCats;
     notifyListeners();
   }
 }
